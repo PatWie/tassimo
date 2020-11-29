@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="css/c3.min.css">
+        <link rel="stylesheet" href="css/materialize.min.css">
+        <title>Tassimo decoder</title>
+    </head>
+    <body>
+        <nav>
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">CUDA Occupancy Calculator</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="https://github.com/PatWie/cuda-calculator">Fork me</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <select name="version">
+                                <option value="1.0">1.0</option>
+                                <option value="1.1">1.1</option>
+                                <option value="1.2">1.2</option>
+                                <option value="1.3">1.3</option>
+                                <option value="2.0">2.0</option>
+                                <option value="2.1">2.1</option>
+                                <option value="3.0">3.0</option>
+                                <option value="3.5">3.5</option>
+                                <option value="3.7">3.7</option>
+                                <option value="5.0">5.0</option>
+                                <option value="5.2">5.2</option>
+                                <option value="5.3">5.3</option>
+                                <option value="6.0" selected="selected">6.0</option>
+                                <option value="6.1">6.1</option>
+                                <option value="6.2">6.2</option>
+                                <option value="7.0">7.0</option>
+                                <option value="7.5">7.5</option>
+                            </select>
+                            <label for="version">Compute Capability version</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input placeholder="128 Threads" id="threadsPerBlock" name="threadsPerBlock" type="text" class="validate" value="128">
+                            <label for="threadsPerBlock">Threads per block</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="48 registers" id="registersPerThread" name="registersPerThread" type="text" class="validate" value="48">
+                            <label for="registersPerThread">Registers per thread
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input placeholder="size of shared memory" id="sharedMemoryPerBlock" name="sharedMemoryPerBlock" type="text" class="validate" value="4096">
+                            <label for="sharedMemoryPerBlock">Shared memory per block</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select name="shm_unit" id="shm_unit">
+                                <option value="1" selected="selected">bytes</option>
+                                <option value="4">floats</option>
+                                <option value="8">double</option>
+                                <option value="2">short</option>
+                            </select>
+                            <label for="shm_unit">shared memory unit</label>
+                        </div>
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Calculate
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div id="output">
+                <table class="centered">
+                    <caption>GPU Occupancy Data is displayed here and in the graphs</caption>
+                    <thead>
+                        <tr>
+                            <th>Active Threads per Multiprocessor</th>
+                            <th>Active Warps per Multiprocessor</th>
+                            <th>Active Thread Blocks per Multiprocessor</th>
+                            <th>Occupancy of each Multiprocessor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-value="activeThreadsPerMultiprocessor"></td>
+                            <td data-value="activeWarpsPerMultiprocessor"></td>
+                            <td data-value="activeThreadBlocksPerMultiprocessor"></td>
+                            <td data-value="occupancyOfMultiprocessor"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <table class=" small">
+                        <caption>Physical Limits for GPU Compute Capability: <span data-value="version"></span></caption>
+                        <tr>
+                            <th>Threads per Warp</th>
+                            <td data-value="threadsPerWarp"></td>
+                        </tr>
+                        <tr>
+                            <th>Max Warps per Multiprocessor</th>
+                            <td data-value="warpsPerMultiprocessor"></td>
+                        </tr>
+                        <tr>
+                            <th>Max Thread Blocks per Multiprocessor</th>
+                            <td data-value="threadBlocksPerMultiprocessor"></td>
+                        </tr>
+                        <tr>
+                            <th>Threads per Multiprocessor</th>
+                            <td data-value="threadsPerMultiprocessor"></td>
+                        </tr>
+                        <tr>
+                            <th>Total # of 32-bit registers per Multiprocessor</th>
+                            <td data-value="registerFileSize"></td>
+                        </tr>
+                        <tr>
+                            <th>Register allocation unit size</th>
+                            <td data-value="registerAllocationUnitSize"></td>
+                        </tr>
+                        <tr>
+                            <th>Register allocation granularity</th>
+                            <td data-value="allocationGranularity"></td>
+                        </tr>
+                        <tr>
+                            <th>Shared Memory per Multiprocessor (bytes)</th>
+                            <td data-value="sharedMemoryPerMultiprocessor"></td>
+                        </tr>
+                        <tr>
+                            <th>Shared Memory Allocation unit size</th>
+                            <td data-value="sharedMemoryAllocationUnitSize"></td>
+                        </tr>
+                        <tr>
+                            <th>Warp allocation granularity (for register allocation)</th>
+                            <td data-value="warpAllocationGranularity"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <table class="centered">
+                    <caption>Allocation Per Thread Block</caption>
+                    <thead>
+                        <tr>
+                            <th>Warps</th>
+                            <th>Registers</th>
+                            <th>Shared Memory</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-value="blockWarps"></td>
+                            <td data-value="blockRegisters"></td>
+                            <td data-value="blockSharedMemory"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col s4">
+                        <p>Impact of Varying Block Size</p>
+                        <div id="impact_blocksize_plot"></div>
+                    </div>
+                    <div class="col s4">
+                        <p>Impact of Varying Register Count Per Thread</p>
+                        <div id="impact_register_plot"></div>
+                    </div>
+                    <div class="col s4">
+                        <p>Impact of Varying Shared Memory Usage Per Block</p>
+                        <div id="impact_shm_plot"></div>
+                        <div id="test"></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"> </script>
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="js/c3.min.js" charset="utf-8"></script>
+        <style type="text/css">
+        table{margin-bottom: 2rem;}
+        th{ font-weight: normal; font-style: italic; color:#3f7b02;}
+        table.small > tbody > tr > th{padding: 5px 5px;}
+        #output > table > tbody > tr > td{padding: 5px 5px;  font-weight: bold; }
+        table.small > tbody > tr > td{padding: 5px 5px; text-align: right; font-weight: bold; }        </style>
+        <script src="calculator.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>

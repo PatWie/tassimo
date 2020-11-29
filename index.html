@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="css/c3.min.css">
+        <link rel="stylesheet" href="css/materialize.min.css">
+        <title>Tassimo decoder</title>
+    </head>
+    <body>
+        <nav>
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">Tassimo decoder</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="https://github.com/PatWie/cuda-calculator">Fork me</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="4382" id="tassimo-code-decimal" name="tassimo-code-decimal" type="text" class="validate invalid" value="4382"  onkeyup='maskinput(event)'>
+                            <label for="tassimo-code-decimal">Tassimo barcode in decimal</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="output">
+
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="" id="tassimo-code-binary" name="tassimo-code-binary" type="text" class="validate" value="">
+                            <label for="tassimo-code-binary">Tassimo barcode in binary</label>
+                        </div>
+                    </div>
+                </form>
+
+
+
+                <div class="row">
+                    <table class=" small">
+                        <caption>Properties <span data-value="version"></span></caption>
+                        <tr>
+                            <th>Water temperature</th>
+                            <td data-value="water_temperature"></td>
+                        </tr>
+                        <tr>
+                            <th>Cartridge charge</th>
+                            <td data-value="cartridge_charge"></td>
+                        </tr>
+                        <tr>
+                            <th>Beverage Volume</th>
+                            <td data-value="beverage_volume"></td>
+                        </tr>
+                        <tr>
+                            <th>Flow Rate</th>
+                            <td data-value="flow_rate"></td>
+                        </tr>
+                        <tr>
+                            <th>Purge</th>
+                            <td data-value="purge"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"> </script>
+        <script src="app.js"></script>
+    </body>
+</html>
